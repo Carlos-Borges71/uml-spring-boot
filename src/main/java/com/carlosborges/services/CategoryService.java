@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.carlosborges.entities.Category;
 import com.carlosborges.repositories.CategoryRepository;
+import com.carlosborges.services.exception.ObjectNotFoundException;
 
 @Service
 public class CategoryService {
@@ -21,7 +22,8 @@ public class CategoryService {
 	
 	public Category findById(Integer id) {
 		Optional<Category> obj = repository.findById(id);
-		return obj.orElseThrow();
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Object not faund! Id: " + id
+				+ ", type: " + Category.class.getName()));
 	}
 
 }
