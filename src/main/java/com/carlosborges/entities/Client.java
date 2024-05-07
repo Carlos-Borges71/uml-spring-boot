@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.carlosborges.entities.enums.TypeClient;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
@@ -30,13 +29,17 @@ public class Client implements Serializable{
 	private String cpfOuCnpj;
 	private Integer type;
 	
-	@JsonManagedReference
+	
 	@OneToMany(mappedBy = "client")
 	private List<Address> address = new ArrayList<>();
 	
 	@ElementCollection
 	@CollectionTable(name = "PHONE")
 	private Set<String> phones = new HashSet<>();
+	
+	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 	
 	public Client() {		
 	}
@@ -104,6 +107,15 @@ public class Client implements Serializable{
 
 	public void setPhones(Set<String> phones) {
 		this.phones = phones;
+	}
+	
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override

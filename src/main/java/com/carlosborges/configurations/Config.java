@@ -1,5 +1,6 @@
 package com.carlosborges.configurations;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,20 @@ import com.carlosborges.entities.Address;
 import com.carlosborges.entities.Category;
 import com.carlosborges.entities.City;
 import com.carlosborges.entities.Client;
+import com.carlosborges.entities.Order;
+import com.carlosborges.entities.Payment;
+import com.carlosborges.entities.PaymentCard;
+import com.carlosborges.entities.PaymentSlip;
 import com.carlosborges.entities.Product;
 import com.carlosborges.entities.State;
+import com.carlosborges.entities.enums.PaymentStatus;
 import com.carlosborges.entities.enums.TypeClient;
 import com.carlosborges.repositories.AddressRepository;
 import com.carlosborges.repositories.CategoryRepository;
 import com.carlosborges.repositories.CityRepository;
 import com.carlosborges.repositories.ClientRepository;
+import com.carlosborges.repositories.OrderRepository;
+import com.carlosborges.repositories.PaymentRepository;
 import com.carlosborges.repositories.ProductRepository;
 import com.carlosborges.repositories.StateRepository;
 
@@ -36,6 +44,10 @@ public class Config implements CommandLineRunner {
 	private ClientRepository clientRepository;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
 	
 	@Override
 	public void run(String... args) throws Exception{
@@ -81,6 +93,23 @@ public class Config implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(a1, a2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		
+		Order or1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, a1);
+		Order or2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, a2);
+		
+		Payment pgto1 = new PaymentCard(null, PaymentStatus.QUITADO, or1, 6);		
+		or1.setPayment(pgto1);
+		
+		Payment pgto2 = new PaymentSlip(null, PaymentStatus.PENDENTE, or2, sdf.parse("20/10/2017 00:00"), null);
+		or2.setPayment(pgto2);
+		
+		cli1.getOrders().addAll(Arrays.asList(or1,or2));
+		
+		orderRepository.saveAll(Arrays.asList(or1, or2));
+		paymentRepository.saveAll(Arrays.asList(pgto1,pgto2));
+		
 	}
 
 }
