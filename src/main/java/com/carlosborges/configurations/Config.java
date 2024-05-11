@@ -11,6 +11,7 @@ import com.carlosborges.entities.Address;
 import com.carlosborges.entities.Category;
 import com.carlosborges.entities.City;
 import com.carlosborges.entities.Client;
+import com.carlosborges.entities.ItemOrder;
 import com.carlosborges.entities.Order;
 import com.carlosborges.entities.Payment;
 import com.carlosborges.entities.PaymentCard;
@@ -23,6 +24,7 @@ import com.carlosborges.repositories.AddressRepository;
 import com.carlosborges.repositories.CategoryRepository;
 import com.carlosborges.repositories.CityRepository;
 import com.carlosborges.repositories.ClientRepository;
+import com.carlosborges.repositories.ItemOrderRepository;
 import com.carlosborges.repositories.OrderRepository;
 import com.carlosborges.repositories.PaymentRepository;
 import com.carlosborges.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class Config implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private ItemOrderRepository itemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception{
@@ -110,6 +114,18 @@ public class Config implements CommandLineRunner {
 		orderRepository.saveAll(Arrays.asList(or1, or2));
 		paymentRepository.saveAll(Arrays.asList(pgto1,pgto2));
 		
+		ItemOrder ip1 = new ItemOrder(or1, p1, 00.00, 1, 2000.00);
+		ItemOrder ip2 = new ItemOrder(or1, p3, 00.00, 2, 80.00);
+		ItemOrder ip3 = new ItemOrder(or2, p2, 100.00, 1, 800.00);
+		
+		or1.getItems().addAll(Arrays.asList(ip1,ip2));
+		or2.getItems().addAll(Arrays.asList(ip3));
+		
+		p1.getItems().addAll(Arrays.asList(ip1));
+		p2.getItems().addAll(Arrays.asList(ip3));
+		p3.getItems().addAll(Arrays.asList(ip2));
+		
+		itemRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 	}
 
 }

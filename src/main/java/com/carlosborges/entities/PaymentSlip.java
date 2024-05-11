@@ -3,19 +3,19 @@ package com.carlosborges.entities;
 import java.util.Date;
 
 import com.carlosborges.entities.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 public class PaymentSlip extends Payment{
 	private static final long serialVersionUID = 1L;
 	
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataVencimento;
 	
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	//@Temporal(TemporalType.DATE)
 	private Date dataPagamento;
 	
 	public PaymentSlip() {		

@@ -2,10 +2,13 @@ package com.carlosborges.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product implements Serializable {
@@ -33,6 +37,10 @@ public class Product implements Serializable {
 	)
 	private List<Category> categories = new ArrayList<>();
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "id.product")
+	private Set<ItemOrder> items = new HashSet<>();
+	
 	public Product () {		
 	}
 
@@ -41,6 +49,14 @@ public class Product implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.price = price;
+	}
+	@JsonIgnore
+	public List<Order> getOrders(){
+		List<Order> list = new ArrayList<>();
+		for(ItemOrder x : items) {
+			list.add(x.getOrder());
+		}
+		return list;
 	}
 
 	public Integer getId() {
@@ -73,6 +89,15 @@ public class Product implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+
+	public Set<ItemOrder> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<ItemOrder> items) {
+		this.items = items;
 	}
 
 	@Override

@@ -2,7 +2,12 @@ package com.carlosborges.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,10 +16,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_ORDER")
@@ -25,12 +29,14 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date Instante;
+	@JsonFormat(pattern = "dd/MM/yyyy hh:mm")
+	private Date instante;
 	
+	@JsonManagedReference
 	@OneToOne( cascade = CascadeType.ALL, mappedBy = "order")
 	private Payment payment;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
@@ -39,6 +45,8 @@ public class Order implements Serializable{
 	@JoinColumn(name = "address_entred_id")
 	private Address enderecoDeEntrega;
 	
+	@OneToMany(mappedBy = "id.order")
+	private Set<ItemOrder> Items = new HashSet<>();
 	
 	public Order() {		
 	}
@@ -47,7 +55,7 @@ public class Order implements Serializable{
 	public Order(Integer id, Date instante, Client client, Address enderecoDeEntrega) {
 		super();
 		this.id = id;
-		Instante = instante;
+		this.instante = instante;
 		this.client = client;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
@@ -64,12 +72,12 @@ public class Order implements Serializable{
 
 
 	public Date getInstante() {
-		return Instante;
+		return instante;
 	}
 
 
 	public void setInstante(Date instante) {
-		Instante = instante;
+		this.instante = instante;
 	}
 
 
@@ -100,6 +108,16 @@ public class Order implements Serializable{
 
 	public void setEnderecoDeEntrega(Address enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+
+	public Set<ItemOrder> getItems() {
+		return Items;
+	}
+
+
+	public void setItems(Set<ItemOrder> items) {
+		Items = items;
 	}
 
 

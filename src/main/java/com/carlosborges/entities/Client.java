@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.carlosborges.entities.enums.TypeClient;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
@@ -37,7 +38,7 @@ public class Client implements Serializable{
 	@CollectionTable(name = "PHONE")
 	private Set<String> phones = new HashSet<>();
 	
-	
+	@JsonBackReference
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
