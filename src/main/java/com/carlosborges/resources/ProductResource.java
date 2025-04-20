@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carlosborges.entities.Product;
 import com.carlosborges.services.ProductService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/products")
 public class ProductResource {
