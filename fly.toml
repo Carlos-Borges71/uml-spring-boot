@@ -1,0 +1,16 @@
+app = "uml-spring-boot"<font></font>
+primary_region = "gru"<font></font>
+<font></font>
+[http_service]<font></font>
+auto_start_machines = true<font></font>
+auto_stop_machines = true<font></font>
+force_https = true<font></font>
+internal_port = 8_080<font></font>
+min_machines_running = 0<font></font>
+processes = [ "app" ]<font></font>
+<font></font>
+[[vm]]<font></font>
+cpu_kind = "shared"<font></font>
+cpus = 1<font></font>
+memory = "1gb"<font></font>
+memory_mb = 1_024<font></font>
