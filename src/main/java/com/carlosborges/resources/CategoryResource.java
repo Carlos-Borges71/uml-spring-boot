@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carlosborges.entities.Category;
 import com.carlosborges.services.CategoryService;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
