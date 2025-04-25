@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carlosborges.entities.Order;
 import com.carlosborges.services.OrderService;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderResource {
