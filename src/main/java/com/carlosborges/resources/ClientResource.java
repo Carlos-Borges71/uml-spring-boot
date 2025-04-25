@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carlosborges.entities.Client;
 import com.carlosborges.services.ClientService;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/clients")
 public class ClientResource {
